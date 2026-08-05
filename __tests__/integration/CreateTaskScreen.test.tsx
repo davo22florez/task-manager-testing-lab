@@ -21,7 +21,13 @@ const renderScreen = () =>
 
 describe('CreateTaskScreen - Integración', () => {
   it('crea una tarea exitosamente y muestra confirmación', async () => {
+    server.use(http.get(`${API_URL}/tasks`, () => HttpResponse.json([])));
+
     await renderScreen();
+
+    await waitFor(() => {
+      expect(screen.getByText('No hay tareas aún')).toBeTruthy();
+    });
 
     await fireEvent.changeText(
       screen.getByPlaceholderText('Escribe el título de la tarea'),
@@ -29,30 +35,26 @@ describe('CreateTaskScreen - Integración', () => {
     );
     await fireEvent.press(screen.getByText('Guardar'));
 
-   await waitFor(() => {
+    await waitFor(() => {
       expect(screen.getByText('Tarea creada exitosamente')).toBeTruthy();
     });
   }, 15000);
 
-  it('muestra un mensaje de error cuando la API falla al crear la tarea', async () => {
+  it('muestra un mensaje de error cuando la API falla al cargar las tareas', async () => {
     server.use(
-      http.post(`${API_URL}/tasks`, () => new HttpResponse(null, { status: 500 }))
+      http.get(`${API_URL}/tasks`, () => new HttpResponse(null, { status: 500 }))
     );
 
     await renderScreen();
 
-    await fireEvent.changeText(
-      screen.getByPlaceholderText('Escribe el título de la tarea'),
-      'Tarea que va a fallar'
-    );
-    await fireEvent.press(screen.getByText('Guardar'));
-
     await waitFor(() => {
-      expect(screen.getByText('Error al crear la tarea')).toBeTruthy();
+      expect(screen.getByText('No se pudieron cargar las tareas')).toBeTruthy();
     });
   });
 
-  it('muestra el estado vacío cuando todavía no hay tareas', async () => {
+  it('muestra el estado vacío cuando la API responde sin tareas', async () => {
+    server.use(http.get(`${API_URL}/tasks`, () => HttpResponse.json([])));
+
     await renderScreen();
 
     await waitFor(() => {

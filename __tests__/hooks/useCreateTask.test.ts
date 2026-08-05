@@ -1,16 +1,19 @@
 import { renderHook, act } from '@testing-library/react-native';
 import { useCreateTask } from '../../src/hooks/useCreateTask';
-import { createTask } from '../../src/services/taskService';
+import { createTask, fetchTasks } from '../../src/services/taskService';
 
 // Se aísla taskService.createTask con jest.mock() porque el hook depende de una
 // función asíncrona que en producción golpearía una red simulada; mockearla evita
 // que el test dependa de tiempos de espera reales y lo hace determinista y rápido.
 jest.mock('../../src/services/taskService');
 const mockedCreateTask = createTask as jest.MockedFunction<typeof createTask>;
+const mockedFetchTasks = fetchTasks as jest.MockedFunction<typeof fetchTasks>;
 
 describe('useCreateTask', () => {
   beforeEach(() => {
     mockedCreateTask.mockReset();
+    mockedFetchTasks.mockReset();
+    mockedFetchTasks.mockResolvedValue([]);
   });
 
   it('inicia en estado idle y sin tareas', async () => {
