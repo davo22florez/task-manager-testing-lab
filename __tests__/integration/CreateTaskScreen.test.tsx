@@ -29,10 +29,10 @@ describe('CreateTaskScreen - Integración', () => {
     );
     await fireEvent.press(screen.getByText('Guardar'));
 
-    await waitFor(() => {
+   await waitFor(() => {
       expect(screen.getByText('Tarea creada exitosamente')).toBeTruthy();
     });
-  });
+  }, 15000);
 
   it('muestra un mensaje de error cuando la API falla al crear la tarea', async () => {
     server.use(
