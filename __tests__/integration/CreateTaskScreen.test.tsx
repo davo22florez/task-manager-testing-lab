@@ -1,7 +1,11 @@
 import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { http, HttpResponse } from 'msw';
+import { server } from '../../src/mocks/server';
 import { CreateTaskScreen } from '../../src/screens/CreateTaskScreen';
+
+const API_URL = 'https://api.taskmanager.com';
 
 const metrics = {
   frame: { x: 0, y: 0, width: 390, height: 844 },
@@ -27,6 +31,32 @@ describe('CreateTaskScreen - Integración', () => {
 
     await waitFor(() => {
       expect(screen.getByText('Tarea creada exitosamente')).toBeTruthy();
+    });
+  });
+
+  it('muestra un mensaje de error cuando la API falla al crear la tarea', async () => {
+    server.use(
+      http.post(`${API_URL}/tasks`, () => new HttpResponse(null, { status: 500 }))
+    );
+
+    await renderScreen();
+
+    await fireEvent.changeText(
+      screen.getByPlaceholderText('Escribe el título de la tarea'),
+      'Tarea que va a fallar'
+    );
+    await fireEvent.press(screen.getByText('Guardar'));
+
+    await waitFor(() => {
+      expect(screen.getByText('Error al crear la tarea')).toBeTruthy();
+    });
+  });
+
+  it('muestra el estado vacío cuando todavía no hay tareas', async () => {
+    await renderScreen();
+
+    await waitFor(() => {
+      expect(screen.getByText('No hay tareas aún')).toBeTruthy();
     });
   });
 });
