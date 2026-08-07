@@ -7,7 +7,7 @@ import { ConfirmDeleteDialog } from '../components/ConfirmDeleteDialog';
 import { useCreateTask } from '../hooks/useCreateTask';
 
 export function CreateTaskScreen() {
-  const { status, tasks, submit, removeTask, loadError } = useCreateTask();
+  const { status, tasks, submit, removeTask, loadError, toggleStatus, toggleError } = useCreateTask();
   const insets = useSafeAreaInsets();
   const [pendingDelete, setPendingDelete] = useState<string | null>(null);
 
@@ -35,7 +35,12 @@ export function CreateTaskScreen() {
           {loadError}
         </Text>
       )}
-      <TaskList tasks={tasks} onDelete={setPendingDelete} />
+      {toggleError && (
+        <Text className="rounded-lg bg-red-100 px-4 py-3 text-sm font-medium text-red-800">
+          {toggleError}
+        </Text>
+      )}
+      <TaskList tasks={tasks} onDelete={setPendingDelete} onToggle={toggleStatus} />
       <ConfirmDeleteDialog
         visible={pendingDelete !== null}
         taskTitle={pendingTask?.title}

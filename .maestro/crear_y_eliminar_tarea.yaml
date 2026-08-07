@@ -1,0 +1,42 @@
+appId: com.taskmanager.app
+---
+# Flujo E2E propio de la Actividad 3.
+# Recorrido: abrir la app -> crear una tarea -> verificar que aparece en la
+# lista -> eliminarla desde el diálogo de confirmación -> verificar que la
+# app vuelve al estado vacío. Complementa a crear_tarea.yaml y
+# flujo_completo_tareas.yaml (provistos por el docente), que no cubren el
+# borrado de tareas.
+#
+# Notas:
+# - Se usa extendedWaitUntil (en vez de assertVisible simple) alrededor de
+#   los puntos donde hay una animación o transición de pantalla (arranque
+#   en frío tras clearState, apertura del diálogo de confirmación), porque
+#   assertVisible por sí solo se puede rendir antes de que el elemento
+#   termine de entrar en el árbol de la interfaz.
+
+# 1. Abrir la app con estado limpio (sin tareas de corridas anteriores)
+- launchApp:
+    clearState: true
+- extendedWaitUntil:
+    visible: "Nueva tarea"
+    timeout: 10000
+- assertVisible: "No hay tareas aún"
+
+# 2. Crear una tarea nueva
+- tapOn:
+    id: "input-titulo"
+- inputText: "Revisar accesibilidad del formulario"
+- tapOn: "Guardar"
+- assertVisible: "Tarea creada exitosamente"
+- assertVisible: "Revisar accesibilidad del formulario"
+
+# 3. Eliminar la tarea y confirmar
+- tapOn: "Eliminar tarea Revisar accesibilidad del formulario"
+- extendedWaitUntil:
+    visible: "Confirmar eliminación"
+    timeout: 6000
+- tapOn: "Confirmar eliminación"
+
+# 4. Verificar que vuelve al estado vacío
+- assertVisible: "No hay tareas aún"
+- assertNotVisible: "Revisar accesibilidad del formulario"

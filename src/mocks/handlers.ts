@@ -17,4 +17,15 @@ export const handlers = [
       { id: '2', title: 'Otra tarea', status: 'completed' },
     ]);
   }),
+
+  // Endpoint nuevo agregado para la Actividad 3: marcar una tarea como
+  // completada o pendiente. Distinto a los dos handlers anteriores
+  // (POST /tasks y GET /tasks), que ya venían del proyecto base.
+  http.patch(`${API_URL}/tasks/:id`, async ({ params, request }) => {
+    const body = (await request.json()) as { status: 'pending' | 'completed' };
+    return HttpResponse.json(
+      { id: params.id as string, title: 'Tarea actualizada', status: body.status },
+      { status: 200 }
+    );
+  }),
 ];

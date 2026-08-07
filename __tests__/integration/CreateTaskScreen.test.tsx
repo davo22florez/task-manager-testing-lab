@@ -61,4 +61,52 @@ describe('CreateTaskScreen - Integración', () => {
       expect(screen.getByText('No hay tareas aún')).toBeTruthy();
     });
   });
+
+  it('marca una tarea como completada usando el endpoint PATCH /tasks/:id', async () => {
+    server.use(
+      http.get(`${API_URL}/tasks`, () =>
+        HttpResponse.json([{ id: '9', title: 'Tarea a completar', status: 'pending' }])
+      ),
+      http.patch(`${API_URL}/tasks/:id`, async ({ params, request }) => {
+        const body = (await request.json()) as { status: string };
+        return HttpResponse.json({ id: params.id, title: 'Tarea a completar', status: body.status });
+      })
+    );
+
+    await renderScreen();
+
+    await waitFor(() => {
+      expect(screen.getByText('○ Pendiente')).toBeTruthy();
+    });
+
+    await fireEvent.press(screen.getByTestId('btn-toggle-estado-9'));
+
+    await waitFor(() => {
+      expect(screen.getByText('✓ Completada')).toBeTruthy();
+    });
+  });
+
+  it('muestra un mensaje de error cuando el endpoint PATCH /tasks/:id falla', async () => {
+    server.use(
+      http.get(`${API_URL}/tasks`, () =>
+        HttpResponse.json([{ id: '9', title: 'Tarea a completar', status: 'pending' }])
+      ),
+      http.patch(`${API_URL}/tasks/:id`, () => new HttpResponse(null, { status: 500 }))
+    );
+
+    await renderScreen();
+
+    await waitFor(() => {
+      expect(screen.getByText('○ Pendiente')).toBeTruthy();
+    });
+
+    await fireEvent.press(screen.getByTestId('btn-toggle-estado-9'));
+
+    await waitFor(() => {
+      expect(screen.getByText('No se pudo actualizar el estado de la tarea')).toBeTruthy();
+    });
+
+    // El estado local no cambia si la API falla
+    expect(screen.getByText('○ Pendiente')).toBeTruthy();
+  });
 });

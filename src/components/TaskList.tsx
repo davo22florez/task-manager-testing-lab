@@ -6,9 +6,10 @@ import { TaskCard } from './TaskCard';
 interface TaskListProps {
   tasks: Task[];
   onDelete?: (id: string) => void;
+  onToggle?: (id: string) => void;
 }
 
-export function TaskList({ tasks, onDelete = () => {} }: TaskListProps) {
+export function TaskList({ tasks, onDelete = () => {}, onToggle = () => {} }: TaskListProps) {
   if (tasks.length === 0) {
     return <Text className="py-6 text-center text-base text-gray-500">No hay tareas aún</Text>;
   }
@@ -21,7 +22,7 @@ export function TaskList({ tasks, onDelete = () => {} }: TaskListProps) {
       <FlatList
         data={tasks}
         keyExtractor={(t) => t.id}
-        renderItem={({ item }) => <TaskCard task={item} onDelete={onDelete} />}
+        renderItem={({ item }) => <TaskCard task={item} onDelete={onDelete} onToggle={onToggle} />}
       />
     </View>
   );

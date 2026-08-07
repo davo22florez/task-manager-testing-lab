@@ -17,7 +17,7 @@ describe('TaskCard - Accesibilidad', () => {
 
   it('el contenedor de la tarea tiene el rol correcto', async () => {
     await render(<TaskCard task={mockTask} onDelete={jest.fn()} />);
-    const card = screen.getByRole('button');
+    const card = screen.getByRole('button', { name: /Eliminar tarea/i });
     expect(card).toBeTruthy();
   });
 

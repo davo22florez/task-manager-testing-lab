@@ -1,11 +1,12 @@
 import { useState, useEffect } from 'react';
-import { createTask, fetchTasks } from '../services/taskService';
+import { createTask, fetchTasks, toggleTaskStatus } from '../services/taskService';
 import { Task } from '../types';
 
 export function useCreateTask() {
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
   const [tasks, setTasks] = useState<Task[]>([]);
   const [loadError, setLoadError] = useState<string | null>(null);
+  const [toggleError, setToggleError] = useState<string | null>(null);
 
   useEffect(() => {
     fetchTasks()
@@ -28,5 +29,18 @@ export function useCreateTask() {
     setTasks((prev) => prev.filter((t) => t.id !== id));
   };
 
-  return { status, tasks, submit, removeTask, loadError };
+  const toggleStatus = async (id: string) => {
+    const current = tasks.find((t) => t.id === id);
+    if (!current) return;
+    const nextStatus = current.status === 'completed' ? 'pending' : 'completed';
+    setToggleError(null);
+    try {
+      await toggleTaskStatus(id, nextStatus);
+      setTasks((prev) => prev.map((t) => (t.id === id ? { ...t, status: nextStatus } : t)));
+    } catch {
+      setToggleError('No se pudo actualizar el estado de la tarea');
+    }
+  };
+
+  return { status, tasks, submit, removeTask, loadError, toggleStatus, toggleError };
 }
