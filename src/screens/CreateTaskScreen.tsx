@@ -20,6 +20,7 @@ export function CreateTaskScreen() {
     >
       <Text className="text-2xl font-bold text-gray-900">Nueva tarea</Text>
       <TaskForm onSubmit={submit} />
+      <TaskList tasks={tasks} onDelete={setPendingDelete} onToggle={toggleStatus} />
       {status === 'success' && (
         <Text className="rounded-lg bg-green-100 px-4 py-3 text-sm font-medium text-green-800">
           Tarea creada exitosamente
@@ -40,7 +41,6 @@ export function CreateTaskScreen() {
           {toggleError}
         </Text>
       )}
-      <TaskList tasks={tasks} onDelete={setPendingDelete} onToggle={toggleStatus} />
       <ConfirmDeleteDialog
         visible={pendingDelete !== null}
         taskTitle={pendingTask?.title}
