@@ -14,7 +14,7 @@ const FILTERS: { value: FilterStatus; label: string }[] = [
 ];
 
 export function CreateTaskScreen() {
-  const { status, tasks, submit, removeTask, toggleTask, toggleError } = useCreateTask();
+  const { status, tasks, submit, removeTask, toggleTask, toggleError, createError } = useCreateTask();
   const insets = useSafeAreaInsets();
   const [pendingDelete, setPendingDelete] = useState<string | null>(null);
   const [filter, setFilter] = useState<FilterStatus>('all');
@@ -32,6 +32,11 @@ export function CreateTaskScreen() {
       {status === 'success' && (
         <Text className="rounded-lg bg-green-100 px-4 py-3 text-sm font-medium text-green-800">
           Tarea creada exitosamente
+        </Text>
+      )}
+      {createError && (
+        <Text className="rounded-lg bg-red-100 px-4 py-3 text-sm font-medium text-red-800">
+          {createError}
         </Text>
       )}
       {toggleError && (

@@ -1,0 +1,19 @@
+Resultado de: npm run lint:a11y
+Ejecutado sobre: src/components/TaskForm.tsx, src/components/TaskCard.tsx, src/components/ConfirmDeleteDialog.tsx
+
+0 errores, 0 advertencias.
+
+El plugin eslint-plugin-jsx-a11y está diseñado principalmente para HTML/React DOM.
+Los componentes de este proyecto usan primitivas de React Native (Pressable, TextInput, View)
+en lugar de etiquetas HTML, por lo que no se generan errores automáticos sobre ellos.
+
+Prueba de control (para confirmar que la herramienta sí está activa):
+Se ejecutó el mismo linter sobre un componente de control con <img> sin atributo alt.
+Resultado: SÍ detectó el error correctamente:
+
+  error  img elements must have an alt prop, either with meaningful text,
+  or an empty string for decorative images  jsx-a11y/alt-text
+
+Esto confirma que el linter está correctamente instalado y activo; la ausencia
+de errores sobre los componentes reales del proyecto es por el motivo explicado
+arriba (React Native vs. HTML), no porque el linter no se haya ejecutado.

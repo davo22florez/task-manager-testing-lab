@@ -39,6 +39,47 @@ describe('CreateTaskScreen - Integración', () => {
     });
   }, 15000);
 
+  it('sincroniza la creación con el endpoint POST /tasks (éxito, MSW)', async () => {
+    let interceptedTitle = '';
+    server.use(
+      http.post(`${API_URL}/tasks`, async ({ request }) => {
+        const body = (await request.json()) as { title: string };
+        interceptedTitle = body.title;
+        return HttpResponse.json({ id: '99', title: body.title, status: 'pending' }, { status: 201 });
+      })
+    );
+
+    await renderScreen();
+    await fireEvent.changeText(
+      screen.getByPlaceholderText('Escribe el título de la tarea'),
+      'Tarea interceptada por MSW'
+    );
+    await fireEvent.press(screen.getByText('Guardar'));
+
+    await waitFor(() => {
+      expect(interceptedTitle).toBe('Tarea interceptada por MSW');
+    });
+    await waitFor(() => {
+      expect(screen.queryByText('No se pudo sincronizar la tarea con el servidor')).toBeNull();
+    });
+  });
+
+  it('muestra un mensaje cuando el endpoint POST /tasks falla, sin perder la tarea creada localmente', async () => {
+    server.use(http.post(`${API_URL}/tasks`, () => new HttpResponse(null, { status: 500 })));
+
+    await renderScreen();
+    await fireEvent.changeText(
+      screen.getByPlaceholderText('Escribe el título de la tarea'),
+      'Tarea con error de red'
+    );
+    await fireEvent.press(screen.getByText('Guardar'));
+
+    await waitFor(() => {
+      expect(screen.getByText('No se pudo sincronizar la tarea con el servidor')).toBeTruthy();
+    });
+    expect(screen.getByText('Tarea con error de red')).toBeTruthy();
+  });
+
   it('muestra la tarea creada en la lista', async () => {
     await renderScreen();
 

@@ -1,0 +1,19 @@
+{
+  "root": true,
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaFeatures": { "jsx": true },
+    "sourceType": "module"
+  },
+  "plugins": ["jsx-a11y"],
+  "extends": ["plugin:jsx-a11y/recommended"],
+  "settings": {
+    "jsx-a11y": {
+      "components": {
+        "Pressable": "button",
+        "TextInput": "input"
+      }
+    }
+  },
+  "ignorePatterns": ["node_modules/", "android/", "coverage/", "*.config.js"]
+}

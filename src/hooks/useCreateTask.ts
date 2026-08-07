@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Task } from '../types';
-import { toggleTaskStatus } from '../services/taskService';
+import { createTask, toggleTaskStatus } from '../services/taskService';
 
 const STORAGE_KEY = 'tasks';
 
@@ -9,6 +9,7 @@ export function useCreateTask() {
   const [status, setStatus] = useState<'idle' | 'success'>('idle');
   const [tasks, setTasks] = useState<Task[]>([]);
   const [toggleError, setToggleError] = useState<string | null>(null);
+  const [createError, setCreateError] = useState<string | null>(null);
   const loaded = useRef(false);
 
   useEffect(() => {
@@ -35,8 +36,18 @@ export function useCreateTask() {
       status: 'pending',
       createdAt: new Date().toISOString(),
     };
+    setCreateError(null);
     setTasks((prev) => [...prev, task]);
     setStatus('success');
+    // Sincronización con el endpoint POST /tasks (Actividad 3) en segundo
+    // plano: no bloquea ni retrasa la actualización local, que ya ocurrió
+    // arriba de forma instantánea. Es este llamado el que MSW intercepta
+    // en las pruebas de integración.
+    try {
+      await createTask(title);
+    } catch {
+      setCreateError('No se pudo sincronizar la tarea con el servidor');
+    }
   };
 
   const removeTask = (id: string) => {
@@ -59,5 +70,5 @@ export function useCreateTask() {
     });
   };
 
-  return { status, tasks, submit, removeTask, toggleTask, toggleError };
+  return { status, tasks, submit, removeTask, toggleTask, toggleError, createError };
 }
