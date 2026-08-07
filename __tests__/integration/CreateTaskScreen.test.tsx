@@ -53,6 +53,14 @@ describe('CreateTaskScreen - Integración', () => {
     });
   });
 
+  it('muestra el estado vacío cuando no hay tareas guardadas', async () => {
+    await renderScreen();
+
+    await waitFor(() => {
+      expect(screen.getByText('No hay tareas aún')).toBeTruthy();
+    });
+  });
+
   it('sincroniza el cambio de estado con el endpoint PATCH /tasks/:id (éxito)', async () => {
     server.use(
       http.patch(`${API_URL}/tasks/:id`, async ({ params, request }) => {

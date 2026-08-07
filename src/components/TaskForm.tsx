@@ -28,6 +28,8 @@ export function TaskForm({ onSubmit }: TaskFormProps) {
       <Pressable
         onPress={handleSubmit}
         accessibilityRole="button"
+        accessibilityLabel="Guardar"
+        accessibilityHint="Guarda la tarea con el título ingresado"
         className="rounded-lg bg-blue-600 py-3 active:bg-blue-700"
       >
         <Text className="text-center text-base font-semibold text-white">Guardar</Text>
