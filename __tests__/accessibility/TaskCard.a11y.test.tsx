@@ -15,10 +15,9 @@ describe('TaskCard - Accesibilidad', () => {
     expect(deleteButton).toBeTruthy();
   });
 
-  it('el contenedor de la tarea tiene el rol correcto', async () => {
+  it('los controles de la tarjeta son botones enfocables por separado', async () => {
     await render(<TaskCard task={mockTask} onDelete={jest.fn()} />);
-    const card = screen.getByRole('button', { name: /Eliminar tarea/i });
-    expect(card).toBeTruthy();
+    expect(screen.getAllByRole('button')).toHaveLength(2);
   });
 
   it('el estado de la tarea es anunciado al lector de pantalla', async () => {

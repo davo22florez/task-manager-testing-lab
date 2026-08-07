@@ -4,7 +4,7 @@ import { TaskForm } from '../../src/components/TaskForm';
 import { ConfirmDeleteDialog } from '../../src/components/ConfirmDeleteDialog';
 
 // Pruebas de accesibilidad propias de la Actividad 3, complementarias a las
-// que ya existían en TaskCard.a11y.test.tsx 
+// que ya existían en TaskCard.a11y.test.tsx (provistas por el docente).
 // Aquí se cubren dos componentes distintos: el formulario de creación
 // (TaskForm) y el diálogo de confirmación de borrado (ConfirmDeleteDialog).
 

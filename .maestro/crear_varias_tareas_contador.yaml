@@ -1,0 +1,39 @@
+appId: com.taskmanager.app
+---
+# Flujo E2E completamente nuevo para la Actividad 3.
+# Crea 3 tareas y valida que el contador de la lista ("N tareas") se
+# actualice correctamente conforme se agregan.
+
+# 1. Abrir la app con estado limpio
+- launchApp:
+    clearState: true
+- assertVisible: "Task Manager"
+- tapOn: "Flujo Todo List"
+- assertVisible: "Nueva tarea"
+- assertVisible: "No hay tareas aún"
+
+# 2. Crear la primera tarea y validar el contador en singular
+- tapOn:
+    id: "input-titulo"
+- inputText: "Primera tarea"
+- tapOn: "Guardar"
+- assertVisible: "1 tarea"
+
+# 3. Crear la segunda tarea y validar el contador en plural
+- tapOn:
+    id: "input-titulo"
+- inputText: "Segunda tarea"
+- tapOn: "Guardar"
+- assertVisible: "2 tareas"
+
+# 4. Crear la tercera tarea y validar el contador otra vez
+- tapOn:
+    id: "input-titulo"
+- inputText: "Tercera tarea"
+- tapOn: "Guardar"
+- assertVisible: "3 tareas"
+
+# 5. Verificar que las 3 tareas están visibles en la lista
+- assertVisible: "Primera tarea"
+- assertVisible: "Segunda tarea"
+- assertVisible: "Tercera tarea"

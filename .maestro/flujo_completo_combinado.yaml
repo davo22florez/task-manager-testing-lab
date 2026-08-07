@@ -1,0 +1,49 @@
+appId: com.taskmanager.app
+---
+# Flujo E2E completamente nuevo para la Actividad 3.
+# Combina varias funcionalidades en un solo recorrido: crea 2 tareas,
+# elimina una, marca la restante como completada, y verifica que aparece
+# correctamente al filtrar por "Completadas".
+
+# 1. Abrir la app y entrar al flujo de tareas
+- launchApp:
+    clearState: true
+- assertVisible: "Task Manager"
+- tapOn: "Flujo Todo List"
+- assertVisible: "Nueva tarea"
+- assertVisible: "No hay tareas aún"
+
+# 2. Crear la primera tarea
+- tapOn:
+    id: "input-titulo"
+- inputText: "Tarea uno"
+- tapOn: "Guardar"
+- assertVisible: "1 tarea"
+
+# 3. Crear la segunda tarea
+- tapOn:
+    id: "input-titulo"
+- inputText: "Tarea dos"
+- tapOn: "Guardar"
+- assertVisible: "2 tareas"
+
+# 4. Eliminar la primera tarea
+- tapOn: "Eliminar tarea Tarea uno"
+- tapOn: "Confirmar eliminación"
+- assertVisible: "1 tarea"
+- assertNotVisible: "Tarea uno"
+- assertVisible: "Tarea dos"
+
+# 5. Marcar la tarea restante como completada
+- tapOn:
+    id: "btn-toggle-estado-.*"
+- assertVisible: "✓ Completada"
+
+# 6. Verificar que aparece en el filtro "Completadas"
+- tapOn: "Completadas"
+- assertVisible: "Tarea dos"
+
+# 7. Verificar que no aparece en el filtro "Pendientes"
+- tapOn: "Pendientes"
+- assertNotVisible: "Tarea dos"
+- assertVisible: "No hay tareas aún"

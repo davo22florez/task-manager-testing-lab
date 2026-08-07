@@ -1,0 +1,33 @@
+appId: com.taskmanager.app
+---
+# Flujo E2E completamente nuevo para la Actividad 3.
+# No existe nada equivalente en el proyecto de referencia del docente: prueba
+# marcar una tarea como completada y luego volverla a pendiente, usando el
+# endpoint PATCH /tasks/:id agregado en esta actividad (con su propio
+# handler de MSW en las pruebas de integración).
+
+# 1. Abrir la app con estado limpio y entrar al flujo de tareas
+- launchApp:
+    clearState: true
+- assertVisible: "Task Manager"
+- tapOn: "Flujo Todo List"
+- assertVisible: "Nueva tarea"
+- assertVisible: "No hay tareas aún"
+
+# 2. Crear una tarea nueva
+- tapOn:
+    id: "input-titulo"
+- inputText: "Estudiar para el parcial"
+- tapOn: "Guardar"
+- assertVisible: "Tarea creada exitosamente"
+- assertVisible: "○ Pendiente"
+
+# 3. Marcarla como completada
+- tapOn:
+    id: "btn-toggle-estado-.*"
+- assertVisible: "✓ Completada"
+
+# 4. Volverla a marcar como pendiente
+- tapOn:
+    id: "btn-toggle-estado-.*"
+- assertVisible: "○ Pendiente"

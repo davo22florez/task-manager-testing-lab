@@ -1,0 +1,32 @@
+appId: com.taskmanager.app
+---
+# Flujo E2E completamente nuevo para la Actividad 3.
+# Prueba la pantalla de login agregada en esta actividad: primero un intento
+# con datos inválidos (correo sin @), luego un inicio de sesión exitoso.
+
+# 1. Abrir la app y entrar a la pantalla de login
+- launchApp:
+    clearState: true
+- assertVisible: "Task Manager"
+- tapOn: "Iniciar sesión"
+- assertVisible: "Correo electrónico"
+
+# 2. Intento con correo inválido
+- tapOn:
+    id: "input-email-login"
+- inputText: "correo-invalido"
+- tapOn:
+    id: "input-password-login"
+- inputText: "123456"
+- tapOn:
+    id: "btn-iniciar-sesion"
+- assertVisible: "Ingresa un correo válido"
+
+# 3. Corregir y volver a intentar
+- tapOn:
+    id: "input-email-login"
+- eraseText
+- inputText: "usuario@correo.com"
+- tapOn:
+    id: "btn-iniciar-sesion"
+- assertVisible: "Bienvenido, sesión iniciada correctamente"

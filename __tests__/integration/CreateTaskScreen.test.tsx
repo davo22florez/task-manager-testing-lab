@@ -1,4 +1,5 @@
 import React from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { http, HttpResponse } from 'msw';
@@ -6,6 +7,10 @@ import { server } from '../../src/mocks/server';
 import { CreateTaskScreen } from '../../src/screens/CreateTaskScreen';
 
 const API_URL = 'https://api.taskmanager.com';
+
+beforeEach(async () => {
+  await AsyncStorage.clear();
+});
 
 const metrics = {
   frame: { x: 0, y: 0, width: 390, height: 844 },
@@ -21,13 +26,7 @@ const renderScreen = () =>
 
 describe('CreateTaskScreen - Integración', () => {
   it('crea una tarea exitosamente y muestra confirmación', async () => {
-    server.use(http.get(`${API_URL}/tasks`, () => HttpResponse.json([])));
-
     await renderScreen();
-
-    await waitFor(() => {
-      expect(screen.getByText('No hay tareas aún')).toBeTruthy();
-    });
 
     await fireEvent.changeText(
       screen.getByPlaceholderText('Escribe el título de la tarea'),
@@ -40,73 +39,60 @@ describe('CreateTaskScreen - Integración', () => {
     });
   }, 15000);
 
-  it('muestra un mensaje de error cuando la API falla al cargar las tareas', async () => {
-    server.use(
-      http.get(`${API_URL}/tasks`, () => new HttpResponse(null, { status: 500 }))
+  it('muestra la tarea creada en la lista', async () => {
+    await renderScreen();
+
+    await fireEvent.changeText(
+      screen.getByPlaceholderText('Escribe el título de la tarea'),
+      'Comprar pan'
     );
-
-    await renderScreen();
+    await fireEvent.press(screen.getByText('Guardar'));
 
     await waitFor(() => {
-      expect(screen.getByText('No se pudieron cargar las tareas')).toBeTruthy();
+      expect(screen.getByText('Comprar pan')).toBeTruthy();
     });
   });
 
-  it('muestra el estado vacío cuando la API responde sin tareas', async () => {
-    server.use(http.get(`${API_URL}/tasks`, () => HttpResponse.json([])));
-
-    await renderScreen();
-
-    await waitFor(() => {
-      expect(screen.getByText('No hay tareas aún')).toBeTruthy();
-    });
-  });
-
-  it('marca una tarea como completada usando el endpoint PATCH /tasks/:id', async () => {
+  it('sincroniza el cambio de estado con el endpoint PATCH /tasks/:id (éxito)', async () => {
     server.use(
-      http.get(`${API_URL}/tasks`, () =>
-        HttpResponse.json([{ id: '9', title: 'Tarea a completar', status: 'pending' }])
-      ),
       http.patch(`${API_URL}/tasks/:id`, async ({ params, request }) => {
         const body = (await request.json()) as { status: string };
-        return HttpResponse.json({ id: params.id, title: 'Tarea a completar', status: body.status });
+        return HttpResponse.json({ id: params.id, title: 'Tarea sync', status: body.status });
       })
     );
 
     await renderScreen();
+    await fireEvent.changeText(
+      screen.getByPlaceholderText('Escribe el título de la tarea'),
+      'Tarea sync'
+    );
+    await fireEvent.press(screen.getByText('Guardar'));
+    await waitFor(() => screen.getByText('○ Pendiente'));
 
+    await fireEvent.press(screen.getByText('○ Pendiente'));
+
+    expect(screen.getByText('✓ Completada')).toBeTruthy();
     await waitFor(() => {
-      expect(screen.getByText('○ Pendiente')).toBeTruthy();
-    });
-
-    await fireEvent.press(screen.getByTestId('btn-toggle-estado-9'));
-
-    await waitFor(() => {
-      expect(screen.getByText('✓ Completada')).toBeTruthy();
+      expect(screen.queryByText('No se pudo sincronizar el estado con el servidor')).toBeNull();
     });
   });
 
-  it('muestra un mensaje de error cuando el endpoint PATCH /tasks/:id falla', async () => {
-    server.use(
-      http.get(`${API_URL}/tasks`, () =>
-        HttpResponse.json([{ id: '9', title: 'Tarea a completar', status: 'pending' }])
-      ),
-      http.patch(`${API_URL}/tasks/:id`, () => new HttpResponse(null, { status: 500 }))
-    );
+  it('muestra un mensaje cuando el endpoint PATCH /tasks/:id falla, sin revertir el cambio local', async () => {
+    server.use(http.patch(`${API_URL}/tasks/:id`, () => new HttpResponse(null, { status: 500 })));
 
     await renderScreen();
+    await fireEvent.changeText(
+      screen.getByPlaceholderText('Escribe el título de la tarea'),
+      'Tarea con error'
+    );
+    await fireEvent.press(screen.getByText('Guardar'));
+    await waitFor(() => screen.getByText('○ Pendiente'));
 
+    await fireEvent.press(screen.getByText('○ Pendiente'));
+
+    expect(screen.getByText('✓ Completada')).toBeTruthy();
     await waitFor(() => {
-      expect(screen.getByText('○ Pendiente')).toBeTruthy();
+      expect(screen.getByText('No se pudo sincronizar el estado con el servidor')).toBeTruthy();
     });
-
-    await fireEvent.press(screen.getByTestId('btn-toggle-estado-9'));
-
-    await waitFor(() => {
-      expect(screen.getByText('No se pudo actualizar el estado de la tarea')).toBeTruthy();
-    });
-
-    // El estado local no cambia si la API falla
-    expect(screen.getByText('○ Pendiente')).toBeTruthy();
   });
 });

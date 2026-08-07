@@ -1,64 +1,84 @@
-import { renderHook, act } from '@testing-library/react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { renderHook, act, waitFor } from '@testing-library/react-native';
 import { useCreateTask } from '../../src/hooks/useCreateTask';
-import { createTask, fetchTasks } from '../../src/services/taskService';
 
-// Se aísla taskService.createTask con jest.mock() porque el hook depende de una
-// función asíncrona que en producción golpearía una red simulada; mockearla evita
-// que el test dependa de tiempos de espera reales y lo hace determinista y rápido.
-jest.mock('../../src/services/taskService');
-const mockedCreateTask = createTask as jest.MockedFunction<typeof createTask>;
-const mockedFetchTasks = fetchTasks as jest.MockedFunction<typeof fetchTasks>;
+beforeEach(async () => {
+  await AsyncStorage.clear();
+});
 
 describe('useCreateTask', () => {
-  beforeEach(() => {
-    mockedCreateTask.mockReset();
-    mockedFetchTasks.mockReset();
-    mockedFetchTasks.mockResolvedValue([]);
-  });
-
-  it('inicia en estado idle y sin tareas', async () => {
-    const { result } = await renderHook(() => useCreateTask());
-    expect(result.current.status).toBe('idle');
-    expect(result.current.tasks).toEqual([]);
-  });
-
-  it('pasa a success cuando el servicio resuelve correctamente', async () => {
-    mockedCreateTask.mockResolvedValueOnce({ id: '1', title: 'Nueva tarea', status: 'pending' });
+  it('crea la tarea', async () => {
     const { result } = await renderHook(() => useCreateTask());
 
     await act(async () => {
-      await result.current.submit('Nueva tarea');
+      await result.current.submit('Tarea 1');
     });
 
+    expect(result.current.tasks).toHaveLength(1);
+    expect(result.current.tasks[0].title).toBe('Tarea 1');
     expect(result.current.status).toBe('success');
-    expect(result.current.tasks).toHaveLength(1);
-    expect(result.current.tasks[0].title).toBe('Nueva tarea');
   });
 
-  it('pasa a error cuando el servicio rechaza la promesa', async () => {
-    mockedCreateTask.mockRejectedValueOnce(new Error('fallo de red'));
+  it('alterna el estado de una tarea entre pendiente y completada', async () => {
     const { result } = await renderHook(() => useCreateTask());
 
     await act(async () => {
-      await result.current.submit('Tarea fallida');
+      await result.current.submit('Tarea 1');
     });
+    const id = result.current.tasks[0].id;
+    expect(result.current.tasks[0].status).toBe('pending');
 
-    expect(result.current.status).toBe('error');
-    expect(result.current.tasks).toEqual([]);
+    await act(() => {
+      result.current.toggleTask(id);
+    });
+    expect(result.current.tasks[0].status).toBe('completed');
+
+    await act(() => {
+      result.current.toggleTask(id);
+    });
+    expect(result.current.tasks[0].status).toBe('pending');
   });
 
-  it('elimina una tarea creada previamente por su id', async () => {
-    mockedCreateTask.mockResolvedValueOnce({ id: '5', title: 'Tarea a borrar', status: 'pending' });
-    const { result } = await renderHook(() => useCreateTask());
-
+  it('persiste las tareas y las recarga en un nuevo montaje', async () => {
+    const first = await renderHook(() => useCreateTask());
     await act(async () => {
-      await result.current.submit('Tarea a borrar');
+      await first.result.current.submit('Persistente');
     });
-    expect(result.current.tasks).toHaveLength(1);
+    await waitFor(() =>
+      expect(AsyncStorage.setItem).toHaveBeenCalledWith(
+        'tasks',
+        expect.stringContaining('Persistente')
+      )
+    );
 
+    const second = await renderHook(() => useCreateTask());
+    await waitFor(() => expect(second.result.current.tasks).toHaveLength(1));
+    expect(second.result.current.tasks[0].title).toBe('Persistente');
+  });
+
+  it('guarda el estado tras marcar completada y tras eliminar', async () => {
+    const first = await renderHook(() => useCreateTask());
     await act(async () => {
-      result.current.removeTask('5');
+      await first.result.current.submit('Cambiante');
     });
-    expect(result.current.tasks).toEqual([]);
+    const id = first.result.current.tasks[0].id;
+
+    await act(() => {
+      first.result.current.toggleTask(id);
+    });
+    await waitFor(() =>
+      expect(AsyncStorage.setItem).toHaveBeenCalledWith('tasks', expect.stringContaining('completed'))
+    );
+
+    const second = await renderHook(() => useCreateTask());
+    await waitFor(() => expect(second.result.current.tasks[0].status).toBe('completed'));
+
+    await act(() => {
+      second.result.current.removeTask(id);
+    });
+    await waitFor(() => expect(AsyncStorage.setItem).toHaveBeenCalledWith('tasks', '[]'));
+
+    const third = await renderHook(() => useCreateTask());
+    await waitFor(() => expect(third.result.current.tasks).toHaveLength(0));
   });
 });

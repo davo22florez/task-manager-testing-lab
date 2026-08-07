@@ -11,6 +11,7 @@ export function TaskForm({ onSubmit }: TaskFormProps) {
   const handleSubmit = () => {
     if (!title.trim()) return;
     onSubmit(title);
+    setTitle('');
   };
 
   return (

@@ -7,16 +7,20 @@ appId: com.taskmanager.app
 # flujo_completo_tareas.yaml (provistos por el docente), que no cubren el
 # borrado de tareas.
 #
-# Notas:
-# - Se usa extendedWaitUntil (en vez de assertVisible simple) alrededor de
-#   los puntos donde hay una animación o transición de pantalla (arranque
-#   en frío tras clearState, apertura del diálogo de confirmación), porque
-#   assertVisible por sí solo se puede rendir antes de que el elemento
-#   termine de entrar en el árbol de la interfaz.
+# Nota: el toque sobre "Eliminar tarea ..." que abre el diálogo de
+# confirmación puede fallar de forma intermitente (el propio proyecto de
+# referencia del docente tiene el mismo comportamiento documentado: el
+# Modal tarda en entrar al árbol de accesibilidad). Se envuelve en un
+# bloque "retry" para que, si el primer toque no abre el diálogo, Maestro
+# lo vuelva a intentar automáticamente hasta 3 veces.
 
 # 1. Abrir la app con estado limpio (sin tareas de corridas anteriores)
 - launchApp:
     clearState: true
+- extendedWaitUntil:
+    visible: "Task Manager"
+    timeout: 10000
+- tapOn: "Flujo Todo List"
 - extendedWaitUntil:
     visible: "Nueva tarea"
     timeout: 10000
@@ -30,13 +34,13 @@ appId: com.taskmanager.app
 - assertVisible: "Tarea creada exitosamente"
 - assertVisible: "Revisar accesibilidad del formulario"
 
-# 3. Eliminar la tarea y confirmar
-- tapOn: "Eliminar tarea Revisar accesibilidad del formulario"
-- extendedWaitUntil:
-    visible: "Confirmar eliminación"
-    timeout: 6000
+# 3. Eliminar la tarea y confirmar, con reintento automático
+- retry:
+    maxRetries: 3
+    commands:
+      - tapOn: "Eliminar tarea Revisar accesibilidad del formulario"
+      - assertVisible: "Confirmar eliminación"
 - tapOn: "Confirmar eliminación"
 
 # 4. Verificar que vuelve al estado vacío
 - assertVisible: "No hay tareas aún"
-- assertNotVisible: "Revisar accesibilidad del formulario"

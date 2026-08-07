@@ -1,6 +1,8 @@
 appId: com.taskmanager.app
 ---
 - launchApp
+- assertVisible: "Task Manager"
+- tapOn: "Flujo Todo List"
 - assertVisible: "Nueva tarea"
 - tapOn:
     id: "input-titulo"

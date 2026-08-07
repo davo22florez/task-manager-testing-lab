@@ -21,6 +21,8 @@ export function TaskList({ tasks, onDelete = () => {}, onToggle = () => {} }: Ta
       </Text>
       <FlatList
         data={tasks}
+        // sin esto el ScrollView se come el primer tap en una tarjeta mientras el teclado está abierto
+        keyboardShouldPersistTaps="handled"
         keyExtractor={(t) => t.id}
         renderItem={({ item }) => <TaskCard task={item} onDelete={onDelete} onToggle={onToggle} />}
       />
