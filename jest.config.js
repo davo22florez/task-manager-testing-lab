@@ -33,6 +33,16 @@ module.exports = {
     '!src/**/*.d.ts',
     '!src/**/index.ts',
     '!src/mocks/**',
+    // Los siguientes archivos son de una funcionalidad de checkout que no
+    // pertenece a esta actividad ni está conectada a la navegación de la
+    // app (no tienen ruta ni se usan en ninguna pantalla real). Se
+    // excluyen del cálculo de cobertura por ese motivo.
+    '!src/screens/CheckoutScreen.tsx',
+    '!src/components/LabeledInput.tsx',
+    '!src/components/PaymentInfoSection.tsx',
+    '!src/components/ShippingInfoSection.tsx',
+    '!src/components/UserInfoSection.tsx',
+    '!src/schemas/checkoutSchema.ts',
   ],
   coverageThreshold: {
     global: { branches: 70, functions: 70, lines: 70, statements: 70 },

@@ -2,7 +2,7 @@ name: Test Suite
 
 on:
   push:
-    branches: [main, develop]
+    branches: [main, develop, actividad3-final, actividad4-final]
   pull_request:
     branches: [main]
 
@@ -26,5 +26,13 @@ jobs:
       - name: Verificar tipos
         run: npx tsc --noEmit
 
-      - name: Ejecutar pruebas con cobertura
+      - name: Ejecutar pruebas con cobertura (falla si baja del 70%)
         run: npx jest --coverage --ci
+
+      - name: Publicar reporte de cobertura como evidencia
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: reporte-cobertura
+          path: coverage/
+          retention-days: 30

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1785370242419" clover="3.2.0">
-  <project timestamp="1785370242420" name="All files">
-    <metrics statements="71" coveredstatements="65" conditionals="37" coveredconditionals="32" methods="36" coveredmethods="32" elements="144" coveredelements="129" complexity="0" loc="71" ncloc="71" packages="7" files="13" classes="13"/>
+<coverage generated="1787014567950" clover="3.2.0">
+  <project timestamp="1787014567950" name="All files">
+    <metrics statements="176" coveredstatements="126" conditionals="96" coveredconditionals="71" methods="86" coveredmethods="49" elements="358" coveredelements="246" complexity="0" loc="176" ncloc="176" packages="7" files="22" classes="22"/>
     <package name="src">
       <metrics statements="0" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
       <file name="types.ts" path="C:\Users\davo2\task-manager-testing-lab\src\types.ts">
@@ -9,36 +9,71 @@
       </file>
     </package>
     <package name="src.components">
-      <metrics statements="14" coveredstatements="14" conditionals="13" coveredconditionals="13" methods="9" coveredmethods="8"/>
+      <metrics statements="34" coveredstatements="19" conditionals="30" coveredconditionals="21" methods="27" coveredmethods="10"/>
       <file name="ConfirmDeleteDialog.tsx" path="C:\Users\davo2\task-manager-testing-lab\src\components\ConfirmDeleteDialog.tsx">
         <metrics statements="1" coveredstatements="1" conditionals="2" coveredconditionals="2" methods="1" coveredmethods="1"/>
-        <line num="17" count="6" type="stmt"/>
+        <line num="17" count="23" type="stmt"/>
+      </file>
+      <file name="LabeledInput.tsx" path="C:\Users\davo2\task-manager-testing-lab\src\components\LabeledInput.tsx">
+        <metrics statements="2" coveredstatements="0" conditionals="6" coveredconditionals="0" methods="1" coveredmethods="0"/>
+        <line num="5" count="0" type="stmt"/>
+        <line num="13" count="0" type="stmt"/>
+      </file>
+      <file name="PaymentInfoSection.tsx" path="C:\Users\davo2\task-manager-testing-lab\src\components\PaymentInfoSection.tsx">
+        <metrics statements="5" coveredstatements="0" conditionals="1" coveredconditionals="0" methods="5" coveredmethods="0"/>
+        <line num="19" count="0" type="stmt"/>
+        <line num="27" count="0" type="stmt"/>
+        <line num="36" count="0" type="stmt"/>
+        <line num="44" count="0" type="stmt"/>
+        <line num="53" count="0" type="stmt"/>
+      </file>
+      <file name="ShippingInfoSection.tsx" path="C:\Users\davo2\task-manager-testing-lab\src\components\ShippingInfoSection.tsx">
+        <metrics statements="4" coveredstatements="0" conditionals="1" coveredconditionals="0" methods="4" coveredmethods="0"/>
+        <line num="18" count="0" type="stmt"/>
+        <line num="26" count="0" type="stmt"/>
+        <line num="33" count="0" type="stmt"/>
+        <line num="42" count="0" type="stmt"/>
+      </file>
+      <file name="StatusBadge.tsx" path="C:\Users\davo2\task-manager-testing-lab\src\components\StatusBadge.tsx">
+        <metrics statements="3" coveredstatements="3" conditionals="4" coveredconditionals="4" methods="1" coveredmethods="1"/>
+        <line num="5" count="2" type="cond" truecount="2" falsecount="0"/>
+        <line num="6" count="2" type="cond" truecount="2" falsecount="0"/>
+        <line num="8" count="2" type="stmt"/>
       </file>
       <file name="TaskCard.tsx" path="C:\Users\davo2\task-manager-testing-lab\src\components\TaskCard.tsx">
-        <metrics statements="3" coveredstatements="3" conditionals="4" coveredconditionals="4" methods="2" coveredmethods="2"/>
-        <line num="11" count="15" type="stmt"/>
-        <line num="12" count="15" type="stmt"/>
-        <line num="23" count="2" type="stmt"/>
+        <metrics statements="4" coveredstatements="4" conditionals="7" coveredconditionals="7" methods="4" coveredmethods="3"/>
+        <line num="12" count="24" type="stmt"/>
+        <line num="13" count="24" type="stmt"/>
+        <line num="18" count="2" type="stmt"/>
+        <line num="27" count="2" type="stmt"/>
       </file>
       <file name="TaskForm.tsx" path="C:\Users\davo2\task-manager-testing-lab\src\components\TaskForm.tsx">
-        <metrics statements="5" coveredstatements="5" conditionals="2" coveredconditionals="2" methods="2" coveredmethods="2"/>
-        <line num="9" count="13" type="stmt"/>
-        <line num="11" count="13" type="stmt"/>
-        <line num="12" count="6" type="cond" truecount="2" falsecount="0"/>
-        <line num="13" count="3" type="stmt"/>
-        <line num="16" count="13" type="stmt"/>
+        <metrics statements="6" coveredstatements="6" conditionals="2" coveredconditionals="2" methods="2" coveredmethods="2"/>
+        <line num="9" count="37" type="stmt"/>
+        <line num="11" count="37" type="stmt"/>
+        <line num="12" count="11" type="cond" truecount="2" falsecount="0"/>
+        <line num="13" count="8" type="stmt"/>
+        <line num="14" count="8" type="stmt"/>
+        <line num="17" count="37" type="stmt"/>
       </file>
       <file name="TaskList.tsx" path="C:\Users\davo2\task-manager-testing-lab\src\components\TaskList.tsx">
-        <metrics statements="5" coveredstatements="5" conditionals="5" coveredconditionals="5" methods="4" coveredmethods="3"/>
-        <line num="12" count="5" type="cond" truecount="2" falsecount="0"/>
-        <line num="13" count="2" type="stmt"/>
-        <line num="16" count="3" type="stmt"/>
-        <line num="23" count="7" type="stmt"/>
-        <line num="24" count="4" type="stmt"/>
+        <metrics statements="5" coveredstatements="5" conditionals="6" coveredconditionals="6" methods="5" coveredmethods="3"/>
+        <line num="13" count="20" type="cond" truecount="2" falsecount="0"/>
+        <line num="14" count="8" type="stmt"/>
+        <line num="17" count="12" type="stmt"/>
+        <line num="26" count="21" type="stmt"/>
+        <line num="27" count="13" type="stmt"/>
+      </file>
+      <file name="UserInfoSection.tsx" path="C:\Users\davo2\task-manager-testing-lab\src\components\UserInfoSection.tsx">
+        <metrics statements="4" coveredstatements="0" conditionals="1" coveredconditionals="0" methods="4" coveredmethods="0"/>
+        <line num="18" count="0" type="stmt"/>
+        <line num="27" count="0" type="stmt"/>
+        <line num="37" count="0" type="stmt"/>
+        <line num="46" count="0" type="stmt"/>
       </file>
     </package>
     <package name="src.hooks">
-      <metrics statements="30" coveredstatements="30" conditionals="4" coveredconditionals="4" methods="18" coveredmethods="18"/>
+      <metrics statements="51" coveredstatements="51" conditionals="14" coveredconditionals="12" methods="29" coveredmethods="27"/>
       <file name="useCounter.ts" path="C:\Users\davo2\task-manager-testing-lab\src\hooks\useCounter.ts">
         <metrics statements="5" coveredstatements="5" conditionals="1" coveredconditionals="1" methods="6" coveredmethods="6"/>
         <line num="4" count="9" type="stmt"/>
@@ -48,19 +83,40 @@
         <line num="10" count="9" type="stmt"/>
       </file>
       <file name="useCreateTask.ts" path="C:\Users\davo2\task-manager-testing-lab\src\hooks\useCreateTask.ts">
-        <metrics statements="12" coveredstatements="12" conditionals="0" coveredconditionals="0" methods="6" coveredmethods="6"/>
-        <line num="6" count="10" type="stmt"/>
-        <line num="7" count="10" type="stmt"/>
-        <line num="9" count="10" type="stmt"/>
-        <line num="10" count="4" type="stmt"/>
-        <line num="11" count="4" type="stmt"/>
-        <line num="12" count="4" type="stmt"/>
-        <line num="13" count="3" type="stmt"/>
-        <line num="14" count="3" type="stmt"/>
-        <line num="16" count="1" type="stmt"/>
-        <line num="20" count="10" type="stmt"/>
-        <line num="21" count="1" type="stmt"/>
-        <line num="24" count="10" type="stmt"/>
+        <metrics statements="33" coveredstatements="33" conditionals="10" coveredconditionals="8" methods="17" coveredmethods="15"/>
+        <line num="6" count="2" type="stmt"/>
+        <line num="9" count="35" type="stmt"/>
+        <line num="10" count="35" type="stmt"/>
+        <line num="11" count="35" type="stmt"/>
+        <line num="12" count="35" type="stmt"/>
+        <line num="13" count="35" type="stmt"/>
+        <line num="15" count="35" type="stmt"/>
+        <line num="16" count="14" type="stmt"/>
+        <line num="18" count="14" type="cond" truecount="2" falsecount="0"/>
+        <line num="22" count="14" type="stmt"/>
+        <line num="26" count="35" type="stmt"/>
+        <line num="28" count="33" type="cond" truecount="2" falsecount="0"/>
+        <line num="29" count="19" type="stmt"/>
+        <line num="32" count="35" type="stmt"/>
+        <line num="33" count="10" type="stmt"/>
+        <line num="39" count="10" type="stmt"/>
+        <line num="40" count="10" type="stmt"/>
+        <line num="41" count="10" type="stmt"/>
+        <line num="46" count="10" type="stmt"/>
+        <line num="47" count="10" type="stmt"/>
+        <line num="49" count="1" type="stmt"/>
+        <line num="53" count="35" type="stmt"/>
+        <line num="54" count="1" type="stmt"/>
+        <line num="57" count="35" type="stmt"/>
+        <line num="58" count="5" type="stmt"/>
+        <line num="59" count="5" type="cond" truecount="1" falsecount="1"/>
+        <line num="60" count="5" type="cond" truecount="2" falsecount="0"/>
+        <line num="61" count="5" type="stmt"/>
+        <line num="62" count="5" type="stmt"/>
+        <line num="63" count="5" type="cond" truecount="1" falsecount="1"/>
+        <line num="68" count="5" type="stmt"/>
+        <line num="69" count="1" type="stmt"/>
+        <line num="73" count="35" type="stmt"/>
       </file>
       <file name="useTaskList.ts" path="C:\Users\davo2\task-manager-testing-lab\src\hooks\useTaskList.ts">
         <metrics statements="13" coveredstatements="13" conditionals="3" coveredconditionals="3" methods="6" coveredmethods="6"/>
@@ -80,7 +136,18 @@
       </file>
     </package>
     <package name="src.schemas">
-      <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+      <metrics statements="10" coveredstatements="10" conditionals="2" coveredconditionals="2" methods="2" coveredmethods="2"/>
+      <file name="checkoutSchema.ts" path="C:\Users\davo2\task-manager-testing-lab\src\schemas\checkoutSchema.ts">
+        <metrics statements="8" coveredstatements="8" conditionals="2" coveredconditionals="2" methods="2" coveredmethods="2"/>
+        <line num="4" count="1" type="stmt"/>
+        <line num="5" count="1" type="stmt"/>
+        <line num="6" count="1" type="stmt"/>
+        <line num="8" count="1" type="stmt"/>
+        <line num="21" count="29" type="stmt"/>
+        <line num="22" count="29" type="cond" truecount="2" falsecount="0"/>
+        <line num="23" count="24" type="stmt"/>
+        <line num="24" count="29" type="stmt"/>
+      </file>
       <file name="taskSchema.ts" path="C:\Users\davo2\task-manager-testing-lab\src\schemas\taskSchema.ts">
         <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
         <line num="3" count="1" type="stmt"/>
@@ -88,38 +155,103 @@
       </file>
     </package>
     <package name="src.screens">
-      <metrics statements="8" coveredstatements="5" conditionals="6" coveredconditionals="3" methods="4" coveredmethods="2"/>
-      <file name="CreateTaskScreen.tsx" path="C:\Users\davo2\task-manager-testing-lab\src\screens\CreateTaskScreen.tsx">
-        <metrics statements="8" coveredstatements="5" conditionals="6" coveredconditionals="3" methods="4" coveredmethods="2"/>
-        <line num="10" count="2" type="stmt"/>
-        <line num="11" count="2" type="stmt"/>
-        <line num="12" count="2" type="stmt"/>
-        <line num="14" count="2" type="stmt"/>
-        <line num="16" count="2" type="stmt"/>
+      <metrics statements="59" coveredstatements="27" conditionals="32" coveredconditionals="20" methods="22" coveredmethods="5"/>
+      <file name="CheckoutScreen.tsx" path="C:\Users\davo2\task-manager-testing-lab\src\screens\CheckoutScreen.tsx">
+        <metrics statements="24" coveredstatements="0" conditionals="10" coveredconditionals="0" methods="12" coveredmethods="0"/>
+        <line num="10" count="0" type="stmt"/>
+        <line num="11" count="0" type="stmt"/>
+        <line num="12" count="0" type="stmt"/>
+        <line num="14" count="0" type="stmt"/>
+        <line num="15" count="0" type="stmt"/>
+        <line num="18" count="0" type="stmt"/>
+        <line num="19" count="0" type="stmt"/>
+        <line num="20" count="0" type="stmt"/>
+        <line num="21" count="0" type="stmt"/>
+        <line num="22" count="0" type="stmt"/>
+        <line num="23" count="0" type="stmt"/>
+        <line num="25" count="0" type="stmt"/>
+        <line num="26" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="27" count="0" type="stmt"/>
+        <line num="28" count="0" type="stmt"/>
+        <line num="29" count="0" type="stmt"/>
+        <line num="32" count="0" type="stmt"/>
+        <line num="33" count="0" type="stmt"/>
+        <line num="34" count="0" type="cond" truecount="0" falsecount="2"/>
         <line num="37" count="0" type="stmt"/>
-        <line num="39" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="40" count="0" type="stmt"/>
+        <line num="49" count="0" type="stmt"/>
+        <line num="54" count="0" type="stmt"/>
+        <line num="59" count="0" type="stmt"/>
+        <line num="86" count="0" type="stmt"/>
+      </file>
+      <file name="CreateTaskScreen.tsx" path="C:\Users\davo2\task-manager-testing-lab\src\screens\CreateTaskScreen.tsx">
+        <metrics statements="14" coveredstatements="10" conditionals="12" coveredconditionals="10" methods="6" coveredmethods="3"/>
+        <line num="10" count="1" type="stmt"/>
+        <line num="17" count="17" type="stmt"/>
+        <line num="18" count="17" type="stmt"/>
+        <line num="19" count="17" type="stmt"/>
+        <line num="20" count="17" type="stmt"/>
+        <line num="22" count="17" type="stmt"/>
+        <line num="23" count="17" type="stmt"/>
+        <line num="25" count="17" type="stmt"/>
+        <line num="49" count="51" type="stmt"/>
+        <line num="50" count="51" type="stmt"/>
+        <line num="53" count="0" type="stmt"/>
+        <line num="69" count="0" type="stmt"/>
+        <line num="71" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="72" count="0" type="stmt"/>
+      </file>
+      <file name="HomeScreen.tsx" path="C:\Users\davo2\task-manager-testing-lab\src\screens\HomeScreen.tsx">
+        <metrics statements="4" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="0"/>
+        <line num="6" count="0" type="stmt"/>
+        <line num="22" count="0" type="stmt"/>
+        <line num="24" count="0" type="stmt"/>
+        <line num="31" count="0" type="stmt"/>
+      </file>
+      <file name="LoginScreen.tsx" path="C:\Users\davo2\task-manager-testing-lab\src\screens\LoginScreen.tsx">
+        <metrics statements="17" coveredstatements="17" conditionals="10" coveredconditionals="10" methods="2" coveredmethods="2"/>
+        <line num="6" count="10" type="stmt"/>
+        <line num="7" count="10" type="stmt"/>
+        <line num="8" count="10" type="stmt"/>
+        <line num="9" count="10" type="stmt"/>
+        <line num="10" count="10" type="stmt"/>
+        <line num="12" count="10" type="stmt"/>
+        <line num="13" count="3" type="cond" truecount="4" falsecount="0"/>
+        <line num="14" count="1" type="stmt"/>
+        <line num="15" count="1" type="stmt"/>
+        <line num="16" count="1" type="stmt"/>
+        <line num="18" count="2" type="cond" truecount="2" falsecount="0"/>
+        <line num="19" count="1" type="stmt"/>
+        <line num="20" count="1" type="stmt"/>
+        <line num="21" count="1" type="stmt"/>
+        <line num="23" count="1" type="stmt"/>
+        <line num="24" count="1" type="stmt"/>
+        <line num="27" count="10" type="stmt"/>
       </file>
     </package>
     <package name="src.services">
-      <metrics statements="5" coveredstatements="2" conditionals="2" coveredconditionals="0" methods="2" coveredmethods="1"/>
+      <metrics statements="10" coveredstatements="7" conditionals="6" coveredconditionals="4" methods="3" coveredmethods="2"/>
       <file name="taskService.ts" path="C:\Users\davo2\task-manager-testing-lab\src\services\taskService.ts">
-        <metrics statements="5" coveredstatements="2" conditionals="2" coveredconditionals="0" methods="2" coveredmethods="1"/>
+        <metrics statements="10" coveredstatements="7" conditionals="6" coveredconditionals="4" methods="3" coveredmethods="2"/>
         <line num="3" count="2" type="stmt"/>
         <line num="6" count="0" type="stmt"/>
         <line num="7" count="0" type="cond" truecount="0" falsecount="2"/>
         <line num="8" count="0" type="stmt"/>
-        <line num="14" count="1" type="stmt"/>
+        <line num="12" count="10" type="stmt"/>
+        <line num="17" count="10" type="cond" truecount="2" falsecount="0"/>
+        <line num="18" count="9" type="stmt"/>
+        <line num="22" count="5" type="stmt"/>
+        <line num="27" count="5" type="cond" truecount="2" falsecount="0"/>
+        <line num="28" count="4" type="stmt"/>
       </file>
     </package>
     <package name="src.utils">
       <metrics statements="12" coveredstatements="12" conditionals="12" coveredconditionals="12" methods="3" coveredmethods="3"/>
       <file name="filterTasks.ts" path="C:\Users\davo2\task-manager-testing-lab\src\utils\filterTasks.ts">
         <metrics statements="5" coveredstatements="5" conditionals="4" coveredconditionals="4" methods="2" coveredmethods="2"/>
-        <line num="5" count="2" type="stmt"/>
-        <line num="8" count="8" type="cond" truecount="2" falsecount="0"/>
+        <line num="5" count="3" type="stmt"/>
+        <line num="8" count="25" type="cond" truecount="2" falsecount="0"/>
         <line num="9" count="2" type="stmt"/>
-        <line num="11" count="6" type="cond" truecount="2" falsecount="0"/>
+        <line num="11" count="23" type="cond" truecount="2" falsecount="0"/>
         <line num="12" count="12" type="stmt"/>
       </file>
       <file name="validateTask.ts" path="C:\Users\davo2\task-manager-testing-lab\src\utils\validateTask.ts">
