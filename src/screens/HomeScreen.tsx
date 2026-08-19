@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { View, Text, Pressable } from 'react-native';
 import { Link, Href } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { markScreenReady } from '../utils/performanceMonitor';
+import { appColdStartTime } from '../../app/_layout';
 
 const ACCESOS: { href: string; titulo: string; descripcion: string; className: string }[] = [
   {
@@ -20,6 +22,10 @@ const ACCESOS: { href: string; titulo: string; descripcion: string; className: s
 
 export function HomeScreen() {
   const insets = useSafeAreaInsets();
+
+  useEffect(() => {
+    markScreenReady('Pantalla principal cargada', appColdStartTime);
+  }, []);
 
   return (
     <View

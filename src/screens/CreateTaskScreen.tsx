@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { View, Text, Pressable } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { TaskForm } from '../components/TaskForm';
@@ -6,6 +6,7 @@ import { TaskList } from '../components/TaskList';
 import { ConfirmDeleteDialog } from '../components/ConfirmDeleteDialog';
 import { useCreateTask } from '../hooks/useCreateTask';
 import { filterTasksByStatus, FilterStatus } from '../utils/filterTasks';
+import { markScreenReady, startFpsMonitor } from '../utils/performanceMonitor';
 
 const FILTERS: { value: FilterStatus; label: string }[] = [
   { value: 'all', label: 'Todas' },
@@ -18,6 +19,17 @@ export function CreateTaskScreen() {
   const insets = useSafeAreaInsets();
   const [pendingDelete, setPendingDelete] = useState<string | null>(null);
   const [filter, setFilter] = useState<FilterStatus>('all');
+  // Reloj propio de esta pantalla: arranca justo cuando el componente se
+  // construye por primera vez (al navegar aquí), no cuando se abrió la app.
+  const screenMountTime = useRef(Date.now()).current;
+
+  useEffect(() => {
+    markScreenReady('Pantalla Nueva tarea cargada', screenMountTime);
+    // Mide FPS durante 5 segundos apenas se abre la pantalla; interactúa
+    // (escribe, toca botones, haz scroll) durante ese tiempo para que la
+    // medición refleje uso real, no solo la pantalla en reposo.
+    startFpsMonitor(5000);
+  }, []);
 
   const pendingTask = tasks.find((t) => t.id === pendingDelete);
   const visibleTasks = filterTasksByStatus(tasks, filter);
